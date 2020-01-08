@@ -1,0 +1,64 @@
+#include <iostream>
+#include <windows.h>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
+#include "chardata.h"
+using namespace std;
+int data[]={25,12,5,10};
+string en[1][1][1];
+
+class edata{
+public:
+    int ehp,edice;
+    string ename;
+
+};
+edata bastrd;
+void encounter(){
+    int oh;
+
+    oh=rand()%10+1;
+    if (oh==1)bastrd.ename="1 ghoul";bastrd.ehp=10;bastrd.edice=10;
+    if (oh==2)bastrd.ename="1 skulk";bastrd.ehp=12;bastrd.edice=12;
+    if (oh==3)bastrd.ename="1 cave fisher";bastrd.ehp=10;bastrd.edice=10;
+    if (oh==4)bastrd.ename="rat swarm";bastrd.ehp=8;bastrd.edice=8;
+    if (oh==4)bastrd.ename="4 zombies";bastrd.ehp=20;bastrd.edice=12;
+    if (oh==5)bastrd.ename="4 ROUS's";bastrd.ehp=25;bastrd.edice=12;
+    if (oh==6)bastrd.ename="1 ice memphuit";bastrd.ehp=15;bastrd.edice=10;
+    if (oh==7)bastrd.ename= "3 raiders";bastrd.ehp=20;bastrd.edice=10;
+    if (oh==8)bastrd.ename="1 yeth hound";bastrd.ehp=10;bastrd.edice=8;
+    if (oh==9)bastrd.ename="1 decapus";bastrd.ehp=15;bastrd.edice=8;
+    if (oh==10)bastrd.ename="4 gient spiders";bastrd.ehp=8;bastrd.edice=10;
+}
+
+int main()
+{
+    int a=0,b=0,c=0,yd=0,e,f,yh=0,ed=0,eh=1,count=0;
+    string temp,output;
+    srand(time(NULL));
+    encounter();
+    yh=25;
+    eh=bastrd.ehp;
+    cout<<"you enconter "<<bastrd.ename<<endl;
+    while(ed<yh&&eh>yd){
+    cout<<"advance(1) or abscond(0)"<<endl;
+    cin>>a;
+    if (a==1){
+        c=rand()%12+1;
+        cout<<"you do "<<c<<" damaeg!"<<endl;
+        yd+=c;
+        f=rand()%bastrd.edice+1;
+        cout<<"you take "<<f<<" damaeg"<<endl;
+        yh-=f;
+        cout<<"you have "<<yh<<" health remaining"<<endl;
+    }
+    else if (a==0) {
+            f=rand()%5+1;
+            if (f==1)cout<<"you fail to absocnd, try actualy runing"<<endl;
+            else cout<<"you abscond"<<endl;break;
+    }
+    }
+    if(yd>eh)cout<<"you beat the "<<bastrd.ename<<endl;
+    return 0;
+}
