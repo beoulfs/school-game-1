@@ -4,7 +4,12 @@
 #include <windows.h>
 #include "bin/chardata.h"
 #include "bin/combat.h"
-void setdata (chardata &data1){
+spell s1;
+spell s2;
+spell s3;
+spell s4;
+spell s5;
+void setdata (chardata &data1){//makes a charictor. names canot contain spaces
     int in;
     string tamp;
     cout<<"enter one(1) for warier, two(2) for ranger"<<endl;
@@ -31,7 +36,7 @@ void setdata (chardata &data1){
 }
 int in=0,count=0,threshhold=30,in2,in3,a;
 float exp;
-edata bastrd;
+edata bastrd;//enimy data
 void encounter(){
     int oh;
     srand(time(NULL));
@@ -51,6 +56,7 @@ void encounter(){
 int main()
 {
     chardata data1;
+    spellist(s1,s2,s3,s4,s5);
     cout<<"so you wnt to winn the championship, gutsy. you wont, but the rawards get bigger as you winn more. who knows you might evan get enught money to walk away. who are you anyway"<<endl;
     setdata(data1);
     cout<<"so begins the tale of "<<data1.name<<" ,a mighty "<<data1.clas<<" who might have a chance in hell of winning, who knows?"<<endl;
@@ -71,7 +77,7 @@ int main()
     }
     if( in == 1){
         encounter();
-        fight(data1,bastrd);
+        fight(data1,bastrd,s1,s2,s3,s4,s5);
         count+=data1.hp;
         data1.exp+=bastrd.expg;
     }
@@ -91,3 +97,4 @@ int main()
     cout<<"so ends the tale "<<data1.name<<" a not so mighty "<<data1.clas<<"\nwho made "<<count<<" dolers im my endless muder dungon for his poor famaly, i shuld send them a card"<<endl;
     return 0;
 }
+
