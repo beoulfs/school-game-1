@@ -1,64 +1,106 @@
-#include <iostream>
-#include <windows.h>
-#include <cstdlib>
 #include <ctime>
 #include <cstring>
+#include <iostream>
+#include <windows.h>
 #include "chardata.h"
+#include "combat.h"
 using namespace std;
-int data[]={25,12,5,10};
-string en[1][1][1];
 
-class edata{
-public:
-    int ehp,edice;
-    string ename;
 
-};
-edata bastrd;
-void encounter(){
-    int oh;
-
-    oh=rand()%10+1;
-    if (oh==1)bastrd.ename="1 ghoul";bastrd.ehp=10;bastrd.edice=10;
-    if (oh==2)bastrd.ename="1 skulk";bastrd.ehp=12;bastrd.edice=12;
-    if (oh==3)bastrd.ename="1 cave fisher";bastrd.ehp=10;bastrd.edice=10;
-    if (oh==4)bastrd.ename="rat swarm";bastrd.ehp=8;bastrd.edice=8;
-    if (oh==4)bastrd.ename="4 zombies";bastrd.ehp=20;bastrd.edice=12;
-    if (oh==5)bastrd.ename="4 ROUS's";bastrd.ehp=25;bastrd.edice=12;
-    if (oh==6)bastrd.ename="1 ice memphuit";bastrd.ehp=15;bastrd.edice=10;
-    if (oh==7)bastrd.ename= "3 raiders";bastrd.ehp=20;bastrd.edice=10;
-    if (oh==8)bastrd.ename="1 yeth hound";bastrd.ehp=10;bastrd.edice=8;
-    if (oh==9)bastrd.ename="1 decapus";bastrd.ehp=15;bastrd.edice=8;
-    if (oh==10)bastrd.ename="4 gient spiders";bastrd.ehp=8;bastrd.edice=10;
+void spellist (spell &s1,spell &s2,spell &s3,spell &s4,spell &s5){
+s1.name="fireball ";s1.dmg=36;s1.mpcost=30;s1.kamahamah=true;//kamahamah actualy dose something
+s2.name="magic missal ";s2.dmg=15;s2.mpcost=10;s1.kamahamah=false;
+s3.name="jolt ";s3.dmg=10;s3.mpcost=10;s1.kamahamah=false;
+s4.name="death bolt ";s4.dmg=100;s4.mpcost=50;s4.kamahamah=true;
+s5.name="pew ";s5.dmg=10;s5.mpcost=5;s5.kamahamah=true;
 }
 
-int main()
-{
-    int a=0,b=0,c=0,yd=0,e,f,yh=0,ed=0,eh=1,count=0;
+void fight(chardata &data1, edata bastrd,spell &s1,spell &s2,spell &s3,spell &s4,spell &s5){
+int a=0,b=0,c=0,yd=0,e,f,ed=0,eh=1,count=0,hs,inm;//gets hard to find unused variabels with this much code
     string temp,output;
     srand(time(NULL));
-    encounter();
-    yh=25;
     eh=bastrd.ehp;
     cout<<"you enconter "<<bastrd.ename<<endl;
-    while(ed<yh&&eh>yd){
-    cout<<"advance(1) or abscond(0)"<<endl;
+    while(ed<data1.hp&&bastrd.ehp>yd){
+    cout<<"smack(1), cast(2), or run(3)?"<<endl;//add magic to this, and change the names of the actions
     cin>>a;
-    if (a==1){
-        c=rand()%12+1;
-        cout<<"you do "<<c<<" damaeg!"<<endl;
-        yd+=c;
+    if (a==1){//how you hit
+        c=rand()%data1.dice+1;
         f=rand()%bastrd.edice+1;
-        cout<<"you take "<<f<<" damaeg"<<endl;
-        yh-=f;
-        cout<<"you have "<<yh<<" health remaining"<<endl;
+        hs=rand()%20+1;
+        yd+=c;
+        if(hs==1){cout<<"you miss"<<endl;}//if you miss. d20 beased
+        if(hs==20){//if you crit, also d20 based
+            cout<<"you get a crit"<<endl;
+            c=c*2;
+            cout<<"you do "<<c<<" damaeg!"<<endl;
+            cout<<"you take "<<f<<" damaeg"<<endl;
+            data1.hp-=f;
+            cout<<"you have "<<data1.hp<<" health remaining"<<endl;
+        }
+        else if(hs<20&&hs>1){//basic smack
+            cout<<"you do "<<c<<" damaeg!"<<endl;
+            cout<<"you take "<<f<<" damaeg"<<endl;
+            data1.hp-=f;
+            cout<<"you have "<<data1.hp<<" health remaining"<<endl;
+        }
     }
-    else if (a==0) {
-            f=rand()%5+1;
+    if (a==2){//magic engine
+        cout<<"you have "<<data1.spell<<" mana"<<endl;
+        cout<<"chose a spell,"<<s1.name<<s1.mpcost<<"(1)"<<s2.name<<s2.mpcost<<"(2)"<<s3.name<<s3.mpcost<<"(3)"<<s4.name<<s4.mpcost<<"(4)"<<s5.name<<s5.mpcost<<"(5)"<<endl;
+        cin>>inm;
+        cout<<inm<<data1.spell<<s1.mpcost<<endl;
+        if (inm == 1 ){
+            c=s1.dmg;
+            f=rand()%bastrd.edice+1;
+            if (s1.kamahamah==true){cout<<s1.name<<"!"<<endl;}
+            cout<<"you do "<<c<<" damaeg!"<<endl;
+            cout<<"you take "<<f<<" damaeg"<<endl;
+            data1.hp-=f;
+            cout<<"you have "<<data1.hp<<" health remaining"<<endl;
+            }
+        if (inm==2){
+            c=s2.dmg;
+            f=rand()%bastrd.edice+1;
+            if (s2.kamahamah==true){cout<<s2.name<<"!"<<endl;}
+            cout<<"you do "<<c<<" damaeg!"<<endl;
+            cout<<"you take "<<f<<" damaeg"<<endl;
+            data1.hp-=f;
+            cout<<"you have "<<data1.hp<<" health remaining"<<endl;
+        }
+        if (inm==3){
+            c=s3.dmg;
+            f=rand()%bastrd.edice+1;
+            if (s3.kamahamah==true){cout<<s3.name<<"!"<<endl;}
+            cout<<"you do "<<c<<" damaeg!"<<endl;
+            cout<<"you take "<<f<<" damaeg"<<endl;
+            data1.hp-=f;
+            cout<<"you have "<<data1.hp<<" health remaining"<<endl;
+            }
+        if (inm==4){
+            c=s4.dmg;
+            f=rand()%bastrd.edice+1;
+            if (s4.kamahamah==true){cout<<s4.name<<"!"<<endl;}
+            cout<<"you do "<<c<<" damaeg!"<<endl;
+            cout<<"you take "<<f<<" damaeg"<<endl;
+            data1.hp-=f;
+            cout<<"you have "<<data1.hp<<" health remaining"<<endl;
+        }
+        if (inm==5){
+            c=s5.dmg;
+            f=rand()%bastrd.edice+1;
+            if (s1.kamahamah==true){cout<<s1.name<<"!"<<endl;}
+            cout<<"you do "<<c<<" damaeg!"<<endl;
+            cout<<"you take "<<f<<" damaeg"<<endl;
+            data1.hp-=f;
+            cout<<"you have "<<data1.hp<<" health remaining"<<endl;
+        }
+    }
+    else if (a==3) {//runing away
+            f=rand()%data1.spud+1;
             if (f==1)cout<<"you fail to absocnd, try actualy runing"<<endl;
             else cout<<"you abscond"<<endl;break;
     }
     }
-    if(yd>eh)cout<<"you beat the "<<bastrd.ename<<endl;
-    return 0;
+    if(yd>bastrd.ehp&&data1.hp>0)cout<<"you beat the "<<bastrd.ename<<endl;//if you killed it
 }
