@@ -4,14 +4,16 @@
 using namespace std;
 class chardata{
 public:
-    int hp,hpcap,spud,dice,surge,leval=1,exp=0,spellp;
-    string name,clas,spell;
+    int hp,hpcap,spud,dice,surge,leval=1,exp=0,spellp,spellpc,pdice;
+    string name,clas;
+    bool hasposin;
 
 };
 class edata{
 public:
     int ehp,edice,expg;
     string ename;
+    bool isposiond,isstunned;
 
 };
 
